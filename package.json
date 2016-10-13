@@ -1,0 +1,28 @@
+{
+  "name": "sauth",
+  "version": "1.0.0",
+  "description": "Secure authentication provider for NodeJS",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabiopaiva/sAuth.git"
+  },
+  "keywords": [
+    "Node",
+    "Auth",
+    "Saas",
+    "oAuth"
+  ],
+  "author": "Fábio Paiva <fabio@paiva.info>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fabiopaiva/sAuth/issues"
+  },
+  "homepage": "https://github.com/fabiopaiva/sAuth#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
