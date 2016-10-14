@@ -77,7 +77,6 @@ describe('Routes', () => {
           .expect((res) => {
             if (!('access_token' in res.body)) throw new Error("missing access token");
             if (!('refresh_token' in res.body)) throw new Error("missing refresh token");
-            console.log(res.body);
           })
           .end(done);
       });

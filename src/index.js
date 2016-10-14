@@ -9,8 +9,7 @@ var jwtExpress = require('express-jwt');
 //mongoose
 mongoose.Promise = Promise;
 var options = { promiseLibrary: Promise };
-var uri = process.env.MONGO_URI || 'mongodb://mongo/auth';
-app.set('mongoose', mongoose.createConnection(uri, options));
+app.set('mongoose', mongoose.createConnection(process.env.MONGO_URI, options));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
