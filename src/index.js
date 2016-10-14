@@ -3,8 +3,10 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 var routes = require('./routes/index');
+var users = require('./routes/users');
 
 app.use('/', routes);
+app.use('/user', users);
 
 var mongoose = require('mongoose');
 var Promise = require('bluebird');

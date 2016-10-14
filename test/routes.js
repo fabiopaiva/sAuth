@@ -2,7 +2,7 @@ var request = require('supertest');
 var app = require('../src/index');
 
 describe('Routes', () => {
-  describe('Getting ping response', () => {
+  describe('#Getting ping response', () => {
     it('should return a timestamp with 13 digits and status 200', (done) => {
       request(app)
         .get('/ping')
@@ -13,6 +13,54 @@ describe('Routes', () => {
         .expect(200, {
           length: 13
         }, done);
+    });
+  });
+
+  describe('#User requests', () => {
+    describe('#Create', () => {
+      it('should create an user', (done) => {
+        request(app)
+          .put('/user')
+          .send({
+            name: 'Fábio Paiva',
+            email: 'fabio@paiva.info',
+            username: 'fabio',
+            password: 'fabio',
+            provider: 'local'
+          })
+          .expect(201, done);
+      });
+    });
+
+    describe('#Authenticate', () => {
+      it('should fail an authentication for the user', (done) => {
+        request(app)
+          .post('/authenticate')
+          .send({
+            username: 'fabio',
+            password: 'fake',
+            provider: 'local'
+          })
+          .expect(401, done);
+      });
+    });
+
+    describe('#Authenticate', () => {
+      it('should authenticate the user', (done) => {
+        request(app)
+          .post('/authenticate')
+          .send({
+            username: 'fabio',
+            password: 'fabio',
+            provider: 'local'
+          })
+          .expect(200)
+          .expect((res) => {
+            if (!('access_token' in res.body)) throw new Error("missing access token");
+            if (!('refresh_token' in res.body)) throw new Error("missing refresh token");
+          })
+          .end(done);
+      });
     });
   });
 });
