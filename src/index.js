@@ -1,21 +1,26 @@
 var express = require('express');
-var app = express();
+var app = module.exports = express();
 var port = process.env.PORT || 3000;
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
-app.use('/', routes);
-app.use('/user', users);
-
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
+var jwtExpress = require('express-jwt');
 
+//mongoose
 mongoose.Promise = Promise;
 var options = { promiseLibrary: Promise };
 var uri = process.env.MONGO_URI || 'mongodb://mongo/test';
-
 app.set('mongoose', mongoose.createConnection(uri, options));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/', require('./routes/index'));
+app.use('/user', require('./routes/users'));
+
+app.use(jwtExpress({ secret: process.env.SECRET || 'putSecretHere'})
+  .unless({
+    path: ['/authenticate', '/refresh-token', '/user/recover']
+  }));
 
 app.use((req, res, next) => {
   var err = new Error('Not Found');
@@ -44,5 +49,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
    console.log('Listening on port ' + port);
 });
-
-module.exports = app;

@@ -2,16 +2,23 @@ var assert = require('assert');
 var app = require('../src/index');
 var UserSchema = require('../src/schema/user-schema');
 
-describe('Users', () => {
+describe('Users persistence', () => {
   describe('Should manipulate an user with main CRUD operations', () => {
     it('Should create user Fábio', (done) => {
       var user = new UserSchema({
         name: 'Fábio Paiva',
         email: 'fabio@paiva.info',
         username: 'fabio',
-        password: 'fabio'
+        password: 'fabio',
+        provider: 'local'
       });
-      user.save().then(user => {done();});
+      user.save()
+        .then(user => {done();})
+        .catch(err => {
+          console.log(err);
+          process.end();
+          throw err;
+        });
     });
 
     it('Should recover user Fábio', () => {

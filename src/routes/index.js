@@ -7,4 +7,8 @@ router.get('/ping', (req, res, next) => {
   });
 });
 
+router.post('/authenticate', (req, res, next) => {
+  res.send({});
+});
+
 module.exports = router;

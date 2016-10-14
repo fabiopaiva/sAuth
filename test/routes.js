@@ -1,5 +1,6 @@
 var request = require('supertest');
 var app = require('../src/index');
+var jwt = require('jsonwebtoken');
 
 describe('Routes', () => {
   describe('#Getting ping response', () => {
@@ -19,8 +20,10 @@ describe('Routes', () => {
   describe('#User requests', () => {
     describe('#Create', () => {
       it('should create an user', (done) => {
+        var token = jwt.sign({ }, process.env.SECRET);
         request(app)
           .put('/user')
+          .set('Authorization', 'Bearer ' + token)
           .send({
             name: 'Fábio Paiva',
             email: 'fabio@paiva.info',
@@ -32,7 +35,7 @@ describe('Routes', () => {
       });
     });
 
-    describe('#Authenticate', () => {
+    describe('#Authenticate fail', () => {
       it('should fail an authentication for the user', (done) => {
         request(app)
           .post('/authenticate')
@@ -45,7 +48,7 @@ describe('Routes', () => {
       });
     });
 
-    describe('#Authenticate', () => {
+    describe('#Authenticate success', () => {
       it('should authenticate the user', (done) => {
         request(app)
           .post('/authenticate')
