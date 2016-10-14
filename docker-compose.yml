@@ -1,10 +1,18 @@
 version: '2'
 services:
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
     web:
         image: node:6
-        command: npm start
+        command: bash -c "sleep 2 && npm start" #wait 2 seconds for mongo
         working_dir: /code
         volumes:
             - ./:/code
         ports:
             - 3000:3000
+        depends_on:
+            - mongo
+        links:
+            - mongo

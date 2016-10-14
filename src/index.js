@@ -6,6 +6,9 @@ var routes = require('./routes/index');
 
 app.use('/', routes);
 
+var mongoose = require('mongoose');
+mongoose.connect( process.env.MONGO_URI || 'mongodb://mongo/test');
+
 app.use((req, res, next) => {
   var err = new Error('Not Found');
   err.status = 404;
