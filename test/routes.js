@@ -1,6 +1,5 @@
-var assert = require('assert');
 var request = require('supertest');
-var app = require('../src/index.js');
+var app = require('../src/index');
 
 describe('Routes', () => {
   describe('Getting ping response', () => {
