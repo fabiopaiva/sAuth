@@ -1,0 +1,10 @@
+version: '2'
+services:
+    web:
+        image: node:6
+        command: npm start
+        working_dir: /code
+        volumes:
+            - ./:/code
+        ports:
+            - 3000:3000
