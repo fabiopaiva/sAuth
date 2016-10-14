@@ -7,8 +7,13 @@ var routes = require('./routes/index');
 app.use('/', routes);
 
 var mongoose = require('mongoose');
-mongoose.connect( process.env.MONGO_URI || 'mongodb://mongo/test');
-app.set('mongoose', mongoose);
+var Promise = require('bluebird');
+
+mongoose.Promise = Promise;
+var options = { promiseLibrary: Promise };
+var uri = process.env.MONGO_URI || 'mongodb://mongo/test';
+
+app.set('mongoose', mongoose.createConnection(uri, options));
 
 app.use((req, res, next) => {
   var err = new Error('Not Found');

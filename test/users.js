@@ -11,27 +11,27 @@ describe('Users', () => {
         username: 'fabio',
         password: 'fabio'
       });
-      user.save(done);
+      user.save().then(user => {done();});
     });
 
     it('Should recover user Fábio', () => {
-      UserSchema.findOne({email: 'fabio@paiva.info'}, (err, user) => {
+      UserSchema.findOne({email: 'fabio@paiva.info'}).then((user) => {
         assert.equal(user.password, 'fabio');
       });
     });
 
     it('Should update user Fábio', (done) => {
-      UserSchema.findOne({email: 'fabio@paiva.info'}, (err, user) => {
+      UserSchema.findOne({email: 'fabio@paiva.info'}).exec().then((user) => {
         user.provider = 'local';
-        user.save((err, data) => {
-          assert.equal(data.provider, 'local');
-          done();
-        });
+         user.save().then((data) => {
+           assert.equal(data.provider, 'local');
+           done();
+         });
       });
     });
 
     it('Should remove user Fábio', (done) => {
-      UserSchema.remove({email: 'fabio@paiva.info'}, done);
+       UserSchema.remove({email: 'fabio@paiva.info'}, done);
     });
 
   });
