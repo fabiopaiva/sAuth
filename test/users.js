@@ -8,16 +8,28 @@ describe('Users persistence', () => {
       var user = new UserSchema({
         name: 'Fábio Paiva',
         email: 'fabio@paiva.info',
-        username: 'fabio',
+        username: 'fabiopaiva',
         password: 'fabio',
         provider: 'local'
       });
       user.save()
         .then(user => {done();})
         .catch(err => {
-          console.log(err);
-          process.end();
           throw err;
+        });
+    });
+
+    it('Should not create user with duplicated email', (done) => {
+      var user = new UserSchema({
+        name: 'Fábio Paiva',
+        email: 'fabio@paiva.info',
+        username: 'fabio',
+        password: 'fabio',
+        provider: 'local'
+      });
+      user.save()
+        .catch(err => {
+          done();
         });
     });
 

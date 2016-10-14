@@ -1,6 +1,7 @@
 var request = require('supertest');
 var app = require('../src/index');
 var jwt = require('jsonwebtoken');
+var UserSchema = require('../src/schema/user-schema');
 
 describe('Routes', () => {
   describe('#Getting ping response', () => {
@@ -32,6 +33,20 @@ describe('Routes', () => {
             provider: 'local'
           })
           .expect(201, done);
+      });
+    });
+
+    describe('#Remove', () => {
+      it('should remove an user', (done) => {
+        let removeUser = (user) => {
+          var token = jwt.sign({ }, process.env.SECRET);
+          request(app)
+            .delete('/user/' + user.id)
+            .set('Authorization', 'Bearer ' + token)
+            .send()
+            .expect(204, done);
+        };
+        UserSchema.findOne({email: 'fabio@paiva.info'}).then(removeUser);
       });
     });
 
