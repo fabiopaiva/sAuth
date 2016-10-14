@@ -4,6 +4,12 @@ var UserSchema = require('../src/schema/user-schema');
 
 describe('Users persistence', () => {
   describe('Should manipulate an user with main CRUD operations', () => {
+    before((done) => {
+      UserSchema.remove({}).then(() => {
+        done();
+      });
+    });
+
     it('Should create user Fábio', (done) => {
       var user = new UserSchema({
         name: 'Fábio Paiva',
@@ -33,9 +39,12 @@ describe('Users persistence', () => {
         });
     });
 
-    it('Should recover user Fábio', () => {
+    it('Should recover user Fábio and check password is encrypted', () => {
       UserSchema.findOne({email: 'fabio@paiva.info'}).then((user) => {
-        assert.equal(user.password, 'fabio');
+        user.comparePassword('fabio', (err, isMatch) => {
+          if (err) throw err;
+          assert.ok(isMatch);
+        });
       });
     });
 

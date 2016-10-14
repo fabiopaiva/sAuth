@@ -15,4 +15,10 @@ router.put('/', (req, res, next) => {
   });
 });
 
+router.delete('/:id', (req, res, next) => {
+  UserSchema.remove({_id: req.query.id}).then(() => {
+    res.status(204).send();
+  });
+});
+
 module.exports = router;

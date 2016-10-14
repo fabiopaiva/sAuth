@@ -9,7 +9,7 @@ var jwtExpress = require('express-jwt');
 //mongoose
 mongoose.Promise = Promise;
 var options = { promiseLibrary: Promise };
-var uri = process.env.MONGO_URI || 'mongodb://mongo/test';
+var uri = process.env.MONGO_URI || 'mongodb://mongo/auth';
 app.set('mongoose', mongoose.createConnection(uri, options));
 
 app.use(bodyParser.json());
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/users'));
 
-app.use(jwtExpress({ secret: process.env.SECRET || 'putSecretHere'})
+app.use(jwtExpress({ secret: process.env.SECRET})
   .unless({
     path: ['/authenticate', '/refresh-token', '/user/recover']
   }));

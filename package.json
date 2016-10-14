@@ -4,7 +4,7 @@
   "description": "Secure authentication provider for NodeJS",
   "main": "src/index.js",
   "scripts": {
-    "test": "PORT=30001 SECRET=testSecretString node_modules/.bin/mocha",
+    "test": "PORT=30001 SECRET=testSecretString MONGO_URI='mongodb://mongo/test' node_modules/.bin/mocha",
     "start": "node_modules/.bin/nodemon src/index.js"
   },
   "repository": {

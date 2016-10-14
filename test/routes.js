@@ -4,6 +4,13 @@ var jwt = require('jsonwebtoken');
 var UserSchema = require('../src/schema/user-schema');
 
 describe('Routes', () => {
+
+  before((done) => {
+    UserSchema.remove({}).then(() => {
+      done();
+    });
+  });
+
   describe('#Getting ping response', () => {
     it('should return a timestamp with 13 digits and status 200', (done) => {
       request(app)
@@ -19,38 +26,35 @@ describe('Routes', () => {
   });
 
   describe('#User requests', () => {
-    describe('#Create', () => {
-      it('should create an user', (done) => {
+    it('should create an user', (done) => {
+      var token = jwt.sign({ }, process.env.SECRET);
+      request(app)
+        .put('/user')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          name: 'Fábio Paiva',
+          email: 'fabio@paiva.info',
+          username: 'fabio',
+          password: 'fabio',
+          provider: 'local'
+        })
+        .expect(201, done);
+    });
+
+    it('should remove created user', (done) => {
+      let removeUser = (user) => {
         var token = jwt.sign({ }, process.env.SECRET);
         request(app)
-          .put('/user')
+          .delete('/user/' + user.id)
           .set('Authorization', 'Bearer ' + token)
-          .send({
-            name: 'Fábio Paiva',
-            email: 'fabio@paiva.info',
-            username: 'fabio',
-            password: 'fabio',
-            provider: 'local'
-          })
-          .expect(201, done);
-      });
+          .send()
+          .expect(204, done);
+      };
+      UserSchema.findOne({email: 'fabio@paiva.info'}).then(removeUser);
     });
+  });
 
-    describe('#Remove', () => {
-      it('should remove an user', (done) => {
-        let removeUser = (user) => {
-          var token = jwt.sign({ }, process.env.SECRET);
-          request(app)
-            .delete('/user/' + user.id)
-            .set('Authorization', 'Bearer ' + token)
-            .send()
-            .expect(204, done);
-        };
-        UserSchema.findOne({email: 'fabio@paiva.info'}).then(removeUser);
-      });
-    });
-
-    describe('#Authenticate fail', () => {
+  describe('#Authentication', () => {
       it('should fail an authentication for the user', (done) => {
         request(app)
           .post('/authenticate')
@@ -61,9 +65,6 @@ describe('Routes', () => {
           })
           .expect(401, done);
       });
-    });
-
-    describe('#Authenticate success', () => {
       it('should authenticate the user', (done) => {
         request(app)
           .post('/authenticate')
@@ -76,9 +77,9 @@ describe('Routes', () => {
           .expect((res) => {
             if (!('access_token' in res.body)) throw new Error("missing access token");
             if (!('refresh_token' in res.body)) throw new Error("missing refresh token");
+            console.log(res.body);
           })
           .end(done);
       });
     });
-  });
 });
