@@ -5,6 +5,7 @@
             {
                 "name": "Admin",
                 "username": "admin",
+                "role": "admin",
                 "email": "foo@bar.com",
                 "provider": "local",
                 "password": "admin"

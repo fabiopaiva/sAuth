@@ -6,6 +6,7 @@ var UserSchema = mongoose.Schema({
   name: String,
   username: {type: String, required: true, index: { unique: true }},
   email: {type: String, required: true, index: { unique: true }},
+  role: {type: String, default: 'user'},
   provider: {type: String, required: true},
   password: String,
   createdAt: { type: Date, default: Date.now },
