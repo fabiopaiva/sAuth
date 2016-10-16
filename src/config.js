@@ -1,5 +1,5 @@
 module.exports = {
-  mongoUri: process.env.MONGO_URI || 'mongod://localhost/test',
+  mongoUri: process.env.MONGO_URI || 'mongod://localhost/sauth',
   port: process.env.PORT || 3000,
   secret: process.env.SECRET || 'secretString',
   expires: {
