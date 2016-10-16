@@ -8,7 +8,8 @@ services:
         image: node:6
         command: bash -c "sleep 2 && npm start" #wait 2 seconds for mongo
         environment:
-            - MONGO_URI:mongodb://mongo/auth
+            - MONGO_URI=mongodb://mongo/auth
+            - SECRET=MyLocalSecretString
         working_dir: /code
         volumes:
             - ./:/code

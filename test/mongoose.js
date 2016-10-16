@@ -1,12 +1,16 @@
-var assert = require('assert');
-var app = require('../src/index');
-var mongoose = app.get('mongoose');
-var UserSchema = require('../src/schema/user-schema');
+var assert = require('assert'),
+  UserModel = require('../src/model/user'),
+  Promise = require('bluebird');
+
+before((done) => {
+  require('../src/mongoose-setup')();
+  done();
+});
 
 describe('Mongoose', () => {
   describe('#Bluebird', () => {
     it('Should use Bluebird as default promise', () => {
-      assert.equal(UserSchema.collection.findOne().constructor, require('bluebird'));
+      assert.equal(UserModel.findOne({}).exec().constructor, Promise);
     });
   });
 });

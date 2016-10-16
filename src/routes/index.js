@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var localStrategy = require('../strategy/local');
+var express = require('express'),
+  router = express.Router(),
+  localStrategy = require('../strategy/local');
 
 router.get('/ping', (req, res, next) => {
   res.send({

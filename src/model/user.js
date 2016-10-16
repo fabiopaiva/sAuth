@@ -1,13 +1,12 @@
-var app = require('../index');
-var mongoose = app.get('mongoose');
-var bcrypt = require('bcrypt');
-var SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR || 10;
+var mongoose = require('mongoose'),
+  bcrypt = require('bcrypt'),
+  SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR || 10;
 
-var UserSchema = require('mongoose').Schema({
+var UserSchema = mongoose.Schema({
   name: String,
+  username: {type: String, required: true, index: { unique: true }},
   email: {type: String, required: true, index: { unique: true }},
   provider: {type: String, required: true},
-  username: {type: String, required: true, index: { unique: true }},
   password: String,
   createdAt: { type: Date, default: Date.now },
   updateAt: Date

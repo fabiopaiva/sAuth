@@ -1,22 +1,17 @@
-var express = require('express');
-var app = module.exports = express();
-var port = process.env.PORT || 3000;
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var Promise = require('bluebird');
-var jwtExpress = require('express-jwt');
+var express = require('express'),
+  app = module.exports = express(),
+  config = require('./config'),
+  bodyParser = require('body-parser'),
+  jwtExpress = require('express-jwt');
 
-//mongoose
-mongoose.Promise = Promise;
-var options = { promiseLibrary: Promise };
-app.set('mongoose', mongoose.createConnection(process.env.MONGO_URI, options));
+require('./mongoose-setup')();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/users'));
 
-app.use(jwtExpress({ secret: process.env.SECRET})
+app.use(jwtExpress({ secret: config.secret })
   .unless({
     path: ['/authenticate', '/refresh-token', '/user/recover']
   }));
@@ -45,6 +40,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-   console.log('Listening on port ' + port);
+app.listen(config.port, () => {
+  console.log('Listening on port ' + config.port);
 });

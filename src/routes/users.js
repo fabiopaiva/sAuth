@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var UserSchema = require('../schema/user-schema');
+var express = require('express'),
+  router = express.Router(),
+  UserModel = require('../model/user');
 
 router.get('/', (req, res, next) => {
   res.send({
@@ -9,14 +9,22 @@ router.get('/', (req, res, next) => {
 });
 
 router.put('/', (req, res, next) => {
-  var user = new UserSchema(req.body);
-  user.save().then(user => {
-    res.status(201).send(user);
-  });
+  var user = new UserModel(req.body);
+  user.save()
+    .then(user => {
+      res.status(201).send(user);
+    })
+    .catch((err) => {
+      //@TODO implements error handler
+      if (err.name === 'ValidationError' || err.code === 11000) {
+        err.status = 422;
+      }
+      next(err);
+    });
 });
 
 router.delete('/:id', (req, res, next) => {
-  UserSchema.remove({_id: req.query.id}).then(() => {
+  UserModel.remove({_id: req.query.id}).then(() => {
     res.status(204).send();
   });
 });

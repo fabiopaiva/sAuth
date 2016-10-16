@@ -1,12 +1,13 @@
-var request = require('supertest');
-var app = require('../src/index');
-var jwt = require('jsonwebtoken');
-var UserSchema = require('../src/schema/user-schema');
+var request = require('supertest'),
+  app = require('../src/index'),
+  jwt = require('jsonwebtoken'),
+  UserModel = require('../src/model/user');
 
 describe('Routes', () => {
 
   before((done) => {
-    UserSchema.remove({}).then(() => {
+    UserModel.remove({}, (err) => {
+      console.log(err);
       done();
     });
   });
@@ -50,7 +51,7 @@ describe('Routes', () => {
           .send()
           .expect(204, done);
       };
-      UserSchema.findOne({email: 'fabio@paiva.info'}).then(removeUser);
+      UserModel.findOne({email: 'fabio@paiva.info'}).then(removeUser);
     });
   });
 
