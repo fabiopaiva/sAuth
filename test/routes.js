@@ -14,8 +14,10 @@ describe('Routes', () => {
 
   describe('#Getting ping response', () => {
     it('should return a timestamp with 13 digits and status 200', (done) => {
+      var token = jwt.sign({ }, process.env.SECRET);
       request(app)
         .get('/ping')
+        .set('Authorization', 'Bearer ' + token)
         .expect(function(res) {
           res.body.length = res.body.time.toString().length;
           delete res.body.time;
@@ -66,6 +68,7 @@ describe('Routes', () => {
           })
           .expect(401, done);
       });
+
       it('should authenticate the user', (done) => {
         request(app)
           .post('/authenticate')
@@ -81,5 +84,12 @@ describe('Routes', () => {
           })
           .end(done);
       });
+
+      it('should fail to create an user without authentication', (done) => {
+      request(app)
+        .put('/user')
+        .send({})
+        .expect(401, done);
+    });
     });
 });
