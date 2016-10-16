@@ -1,0 +1,14 @@
+[
+    {
+        "model": "User",
+        "documents": [
+            {
+                "name": "Admin",
+                "username": "admin",
+                "email": "foo@bar.com",
+                "provider": "local",
+                "password": "admin"
+            }
+        ]
+    }
+]

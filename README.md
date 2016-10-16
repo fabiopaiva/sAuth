@@ -12,3 +12,7 @@ Secure authentication provider
 ## Run Tests
 
     SECRET=testSecretString MONGO_URI="mongodb://localhost/test" npm test
+
+## Seed database
+
+    MONGO_URI='mongodb://mongo/app' npm run-script seed
