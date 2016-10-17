@@ -7,7 +7,6 @@ describe('Routes', () => {
 
   before((done) => {
     UserModel.remove({}, (err) => {
-      console.log(err);
       done();
     });
   });

@@ -7,7 +7,7 @@
                 "username": "admin",
                 "role": "admin",
                 "email": "foo@bar.com",
-                "provider": "local",
+                "provider": ["local"],
                 "password": "admin"
             }
         ]
