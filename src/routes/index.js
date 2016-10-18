@@ -1,10 +1,14 @@
-var express = require('express'),
-  router = express.Router();
+'use strict';
 
-router.get('/ping', (req, res, next) => {
-  res.send({
-    time: Date.now()
-  });
-});
+const express = require('express'),
+    router = express.Router();
+
+router.get('/ping', getPing);
 
 module.exports = router;
+
+function getPing (req, res) {
+    res.send({
+        time: Date.now()
+    });
+}

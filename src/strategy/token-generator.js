@@ -1,17 +1,24 @@
-var jwt = require('jsonwebtoken'),
-  config = require('../config');
+'use strict'
 
-module.exports.generateAccessToken = (user) => {
-  return jwt.sign({
-    id: user._id,
-    name: user.name,
-    exp: Math.floor(Date.now() / 1000) + config.expires.accessToken
-  }, config.secret);
+const jwt = require('jsonwebtoken'),
+    config = require('../config');
+
+module.exports = {
+    generateAccessToken,
+    generateRefreshToken
 };
 
-module.exports.generateRefreshToken = (token) => {
-  return jwt.sign({
-    token: token,
-    exp: Math.floor(Date.now() / 1000) + config.expires.refreshToken
-  }, config.secret);
-};
+function generateAccessToken (user) {
+    return jwt.sign({
+        id: user._id,
+        name: user.name,
+        exp: Math.floor(Date.now() / 1000) + config.expires.accessToken
+    }, config.secret);
+}
+
+function generateRefreshToken (token) {
+    return jwt.sign({
+        token: token,
+        exp: Math.floor(Date.now() / 1000) + config.expires.refreshToken
+    }, config.secret);
+}
