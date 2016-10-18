@@ -38,3 +38,6 @@ jspm_packages
 
 .env
 run_project.sh
+.DS_Store
+.idea/
+
