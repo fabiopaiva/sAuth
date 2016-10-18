@@ -27,7 +27,7 @@
   "dependencies": {
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.6",
-    "body-parser": m"^1.15.2",
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "jsonwebtoken": "^7.1.9",
