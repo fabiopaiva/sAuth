@@ -22,7 +22,7 @@ function putUser (req, res, next) {
         .catch(error);
 
     function error (err) {
-        //@TODO implements error handler
+        //@TODO implements erroar handler
         if (err.name === 'ValidationError' || err.code === 11000) {
             err.status = 422;
         }
@@ -35,6 +35,6 @@ function deleteUser (req, res, next) {
         .then(success);
 
     function success () {
-        return res.send(204);
+        return res.status(204).send();
     }
 }

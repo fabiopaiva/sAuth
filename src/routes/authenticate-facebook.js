@@ -76,6 +76,6 @@ function getCallback (req, res) {
             refresh_token: generator.generateRefreshToken(token)
         });
     } else {
-        res.send(401, {error: 'Authentication failed'});
+        res.status(401).send({error: 'Authentication failed'});
     }
 }
