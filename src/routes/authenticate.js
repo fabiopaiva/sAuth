@@ -26,10 +26,10 @@ function postRouter (req, res) {
             default:
                 localStrategy(req.body)
                     .then(data => res.send(data))
-                    .catch(err => res.send(401, { error: err }));
+                    .catch(err => res.status(401).send({ error: err }));
         }
 
     } catch (error) {
-        res.send(401, { error });
+        res.status(401).send({ error: error });
     }
 }

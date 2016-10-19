@@ -18,7 +18,7 @@ function putUser (req, res, next) {
     let user = new UserModel(req.body);
 
     user.save()
-        .then(user => res.send(user))
+        .then(user => res.status(201).send(user))
         .catch(error);
 
     function error (err) {
@@ -35,6 +35,6 @@ function deleteUser (req, res, next) {
         .then(success);
 
     function success () {
-        return res.send(204);
+        return res.sendStatus(204);
     }
 }
