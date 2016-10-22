@@ -13,7 +13,7 @@ let protocol = config.https ? 'https' : 'http',
     baseUrl = `${protocol}://${config.hostname}`;
 
 if (process.env.NODE_ENV !== 'production') {
-    baseUrl.concat(config.port);
+    baseUrl = baseUrl.concat(`:${config.port}`);
 }
 
 const facebookOptions = {
