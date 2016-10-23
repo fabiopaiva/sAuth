@@ -30,6 +30,6 @@ function postRouter (req, res) {
         }
 
     } catch (error) {
-        res.status(401).send({ error: error });
+        res.status(401).send({ error });
     }
 }
