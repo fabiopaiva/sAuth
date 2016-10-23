@@ -23,12 +23,20 @@ const facebookOptions = {
     profileFields: ['id', 'displayName', 'photos', 'email']
 };
 
-passport.use(new FacebookStrategy(facebookOptions, facebookStrategyCallback));
+let facebookStrategy = new FacebookStrategy(facebookOptions, facebookStrategyCallback);
+passport.use(facebookStrategy);
 
 router.get('/', getAuthorize);
-router.get('/callback', passport.authenticate('facebook'), getCallback);
+router.get('/callback', updateCallbackUrl, passport.authenticate('facebook'), getCallback);
 
 module.exports = router;
+
+function updateCallbackUrl(req, res, next) {
+    if (req.query.redirect_uri) {
+        facebookStrategy._callbackURL = req.query.redirect_uri;
+    }
+    next();
+}
 
 function facebookStrategyCallback (accessToken, refreshToken, profile, cb) {
     let picture, email;
