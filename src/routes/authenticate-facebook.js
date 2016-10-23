@@ -20,14 +20,12 @@ const facebookOptions = {
     clientID: config.facebook.appId,
     clientSecret: config.facebook.appSecret,
     callbackURL: `${baseUrl}/authenticate/facebook/callback`,
-    authorizationURL: `${baseUrl}/authenticate/facebook/authorize`,
     profileFields: ['id', 'displayName', 'photos', 'email']
 };
 
 passport.use(new FacebookStrategy(facebookOptions, facebookStrategyCallback));
 
-router.get('/', passport.authenticate('facebook'));
-router.get('/authorize', getAuthorize);
+router.get('/', getAuthorize);
 router.get('/callback', passport.authenticate('facebook'), getCallback);
 
 module.exports = router;
@@ -63,8 +61,12 @@ function facebookStrategyCallback (accessToken, refreshToken, profile, cb) {
 }
 
 function getAuthorize (req, res, next) {
+    let query = {
+        redirect_uri: req.query.redirect_uri,
+        client_id: process.env.FACEBOOK_APP_ID
+    };
     res.send({
-        authorizationURL: 'https://www.facebook.com/dialog/oauth?' + querystring.stringify(req.query)
+        authorizationURL: 'https://www.facebook.com/dialog/oauth?' + querystring.stringify(query)
     });
 }
 
