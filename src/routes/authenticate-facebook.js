@@ -61,7 +61,7 @@ function facebookStrategyCallback (accessToken, refreshToken, profile, cb) {
 
     // TODO: Use the `User.findOneAndUpdate` with upsert:true
     User.findOrCreate(
-        {$or: [{'providerData.facebook.id': profile.id}, {'email': email || ''}]},
+        {'email': email || ''},
         {
             "name": profile.displayName,
             "username": profile.id,
