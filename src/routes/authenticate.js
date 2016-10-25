@@ -3,9 +3,11 @@
 const express = require('express'),
     router = express.Router(),
     localStrategy = require('../strategy/local'),
-    facebookRouter = require('./authenticate-facebook');
+    facebookRouter = require('./authenticate-facebook'),
+    linkedinRouter = require('./authenticate-linkedin');
 
 router.use('/facebook', facebookRouter);
+router.use('/linkedin', linkedinRouter);
 router.post('/', postRouter);
 
 module.exports = router;

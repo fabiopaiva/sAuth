@@ -26,8 +26,9 @@ app.use(jwtExpress({secret: config.secret})
         path: [
             '/authenticate',
             '/authenticate/facebook',
-            '/authenticate/facebook/authorize',
             '/authenticate/facebook/callback',
+            '/authenticate/linkedin',
+            '/authenticate/linkedin/callback',
             '/refresh-token',
             '/user/recover'
         ]

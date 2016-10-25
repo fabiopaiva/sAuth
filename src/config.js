@@ -15,5 +15,13 @@ module.exports = {
             'public_profile',
             'email'
         ].join(',')
+    },
+    linkedin: {
+        appId: process.env.LINKEDIN_CLIENT_ID,
+        appSecret: process.env.LINKEDIN_CLIENT_SECRET,
+        scope: process.env.LINKEDIN_CLIENT_SCOPE || [
+            'r_basicprofile',
+            'r_emailaddress'
+        ].join(' ')
     }
 }
