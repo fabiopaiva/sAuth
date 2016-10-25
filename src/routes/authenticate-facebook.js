@@ -20,14 +20,22 @@ const facebookOptions = {
     clientID: config.facebook.appId,
     clientSecret: config.facebook.appSecret,
     callbackURL: `${baseUrl}/authenticate/facebook/callback`,
-    profileFields: ['id', 'displayName', 'photos', 'email']
+    profileFields: ['id', 'displayName', 'photos', 'emails', 'profileUrl','gender', 'education', 'work']
 };
 
 let facebookStrategy = new FacebookStrategy(facebookOptions, facebookStrategyCallback);
 passport.use(facebookStrategy);
 
 router.get('/', getAuthorize);
-router.get('/callback', updateCallbackUrl, passport.authenticate('facebook'), getCallback);
+router.get(
+    '/callback',
+    updateCallbackUrl,
+    passport.authenticate(
+        'facebook',
+        { scope: ['public_profile', 'email', 'user_work_history', 'user_education_history'] }
+    ),
+    getCallback
+);
 
 module.exports = router;
 
@@ -46,8 +54,8 @@ function facebookStrategyCallback (accessToken, refreshToken, profile, cb) {
     if (profile._json.email) {
         email = profile._json.email;
     }
-    delete profile._json;
-    delete profile._raw;
+    //delete profile._json;
+    //delete profile._raw;
     profile.accessToken = accessToken;
     profile.refreshToken = refreshToken;
 
