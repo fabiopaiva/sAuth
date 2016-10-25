@@ -5,6 +5,7 @@ const express = require('express'),
     UserModel = require('../model/user');
 
 router.get('/', getUsers);
+router.get('/self/details', getUserDetail);
 router.put('/', putUser);
 router.delete('/:id', deleteUser);
 
@@ -37,4 +38,8 @@ function deleteUser (req, res, next) {
     function success () {
         return res.sendStatus(204);
     }
+}
+
+function getUserDetail(req, res, next) {
+    UserModel.findOne({_id: req.user.id}).then(user => res.send(user));
 }
