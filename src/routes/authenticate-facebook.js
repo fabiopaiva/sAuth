@@ -71,7 +71,8 @@ function facebookStrategyCallback (accessToken, refreshToken, profile, cb) {
 function getAuthorize (req, res, next) {
     let query = {
         redirect_uri: req.query.redirect_uri,
-        client_id: process.env.FACEBOOK_APP_ID
+        client_id: config.facebook.appId,
+        scope: config.facebook.scope
     };
     res.send({
         authorizationURL: 'https://www.facebook.com/dialog/oauth?' + querystring.stringify(query)

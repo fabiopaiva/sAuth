@@ -10,6 +10,10 @@ module.exports = {
     },
     facebook: {
         appId: process.env.FACEBOOK_APP_ID,
-        appSecret: process.env.FACEBOOK_APP_SECRET
+        appSecret: process.env.FACEBOOK_APP_SECRET,
+        scope: process.env.FACEBOOK_APP_SCOPE || [
+            'public_profile',
+            'email'
+        ].join(',')
     }
 }
